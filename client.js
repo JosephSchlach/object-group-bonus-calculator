@@ -39,5 +39,56 @@ const employees = [
 
 // This is not a race. Everyone on your team should understand what is happening.
 // Ask questions when you don't.
+function EmployeeBonus( name, bonusPercentage, totalCompensation, totalBonus ){
+  this.name = name;
+  this.bonusPercentage = bonusPercentage;
+  this.totalCompensation = totalCompensation;
+  this.totalBonus = totalBonus;
+}
 
-console.log( employees );
+function bonusCalculator( employee ){
+  let bonusPercent = 0;
+  if ( employee.reviewRating === 3 ){ // logic based on employee rating
+    bonusPercent = .04;
+  }
+  else if ( employee.reviewRating === 4 ){
+    bonusPercent = .06;
+  }
+  else if ( employee.reviewRating === 5 ){
+    bonusPercent = .1;
+  }else{
+    bonusPercent = 0;
+  }
+
+  if ((employee.employeeNumber).toString().length === 4 ){ // logic based on employee number digit length
+    bonusPercent += .05;
+  //(`employee number length ${(employee.employeeNumber).toString().length}`)
+  }
+
+  if (employee.annualSalary > 65000){ // logic based on annual salary over 65,000
+    bonusPercent -= .01;
+  }
+
+  if (bonusPercent > .13){  // logic above 13% or below 0%
+    bonusPercent = .13;
+  }
+  else if ( bonusPercent < 0 ){
+    bonusPercent = 0;
+  }
+let totalBonus = bonusPercent * employee.annualSalary;
+
+let totalCompensation = totalBonus + employee.annualSalary;
+
+let result = new EmployeeBonus( employee.name, bonusPercent, totalCompensation, totalBonus );
+return result
+} //end bonusCalculator
+
+
+//logs employee values
+
+
+for( let i = 0; i < employees.length ; i++ ){
+console.log( bonusCalculator( employees[i] ) );
+}
+console.log( `final bonus percent ${bonusCalculator(employees[0])}` );
+//console.log(`testing emplloyee nubmer length ${(employees[0].employeeNumber).toString().length}`)
